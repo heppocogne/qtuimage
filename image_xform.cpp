@@ -5,8 +5,8 @@ using namespace qtuimage;
 ImageXform::ImageXform(QSharedPointer<QImage> _image)
     : image(_image),
       scale(1.0),
-      local(0,0),
-      global(0,0),
+      local(0, 0),
+      global(0, 0),
       scalingMode(ScalingMode::FIT_WINDOW)
 {
 }

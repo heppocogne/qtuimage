@@ -30,9 +30,9 @@ ImageViewer::ImageViewer(QWidget *parent)
     connect(ImageLoader::getSingleton(), &ImageLoader::requestHandled, this, &ImageViewer::registerImage);
 }
 
-bool ImageViewer::isCurrentReady()const
+bool ImageViewer::isCurrentReady() const
 {
-    return 0<=current && imageData[paths[current]] && imageData[paths[current]]->main;
+    return 0 <= current && imageData[paths[current]] && imageData[paths[current]]->main;
 }
 
 QSize ImageViewer::sizeHint(void) const
@@ -49,24 +49,22 @@ QSize ImageViewer::sizeHint(void) const
 
 void ImageViewer::keyPressEvent(QKeyEvent *event)
 {
-
 }
 
 void ImageViewer::keyReleaseEvent(QKeyEvent *event)
 {
-
 }
 
-void ImageViewer::paintEvent(QPaintEvent*)
+void ImageViewer::paintEvent(QPaintEvent *)
 {
-    if(0<=current)
+    if (0 <= current)
     {
-        const auto& path=paths[current];
-        const auto& main=imageData[path]->main;
-        if(main)
+        const auto &path = paths[current];
+        const auto &main = imageData[path]->main;
+        if (main)
         {
             QPainter painter(viewport());
-            painter.drawImage(main->getDisplayRect(),*main->image);
+            painter.drawImage(main->getDisplayRect(), *main->image);
         }
         else
             ImageLoader::getSingleton()->request(path);
@@ -82,38 +80,37 @@ void ImageViewer::invokeRepaint()
 
 void ImageViewer::adjustImageScale()
 {
-    auto& d=imageData[paths[current]]->main;
-    auto is=d->image->size();
-    const auto vs=viewport()->size();
+    auto &d = imageData[paths[current]]->main;
+    auto is = d->image->size();
+    const auto vs = viewport()->size();
     float scale;
-    switch(d->scalingMode)
+    switch (d->scalingMode)
     {
     case ImageXform::ScalingMode::ACTUAL_SIZE:
-        scale=1.0;
+        scale = 1.0;
         break;
     case ImageXform::ScalingMode::FIT_WINDOW:
-        scale=std::min({1.0f,(float)vs.width()/is.width(),(float)vs.height()/is.height()});
+        scale = std::min({1.0f, (float)vs.width() / is.width(), (float)vs.height() / is.height()});
         break;
     case ImageXform::ScalingMode::USER_MANIPULATION:
-        scale=std::max(std::min({1.0f,(float)vs.width()/is.width(),(float)vs.height()/is.height()}),d->scale);
+        scale = std::max(std::min({1.0f, (float)vs.width() / is.width(), (float)vs.height() / is.height()}), d->scale);
         break;
     }
-    d->scale=scale;
+    d->scale = scale;
 }
 
 void ImageViewer::adjustImagePosition()
 {
-
 }
 
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
     if (leftClick)
     {
-        auto diff=event->pos() - mousePosition;
+        auto diff = event->pos() - mousePosition;
         if (isCurrentReady())
         {
-            imageData[paths[current]]->main->global+=diff;
+            imageData[paths[current]]->main->global += diff;
             invokeRepaint();
         }
     }
@@ -138,48 +135,46 @@ void ImageViewer::resizeEvent(QResizeEvent *event)
 
 void ImageViewer::wheelEvent(QWheelEvent *event)
 {
-    if(isCurrentReady())
+    if (isCurrentReady())
     {
         const double steps = event->angleDelta().y() / 120.0;
-        auto& main=imageData[paths[current]]->main;
-        main->setLog10Scale(main->getLog10Scale()+0.1*steps);
-        main->scalingMode=ImageXform::ScalingMode::USER_MANIPULATION;
+        auto &main = imageData[paths[current]]->main;
+        main->setLog10Scale(main->getLog10Scale() + 0.1 * steps);
+        main->scalingMode = ImageXform::ScalingMode::USER_MANIPULATION;
         invokeRepaint();
     }
 }
 
-void ImageViewer::addPath(const QString& path)
+void ImageViewer::addPath(const QString &path)
 {
-
 }
 
-void ImageViewer::addPathRecursive(const QString& path)
+void ImageViewer::addPathRecursive(const QString &path)
 {
-
 }
 
-void ImageViewer::addImage(const QString& path)
+void ImageViewer::addImage(const QString &path)
 {
-    qDebug()<<"add image: "<<path;
+    qDebug() << "add image: " << path;
     paths.push_back(path);
-    imageData[path]=QSharedPointer<ImageData>(new ImageData);
+    imageData[path] = QSharedPointer<ImageData>(new ImageData);
 
-    if(current<0)
-        current=0;
+    if (current < 0)
+        current = 0;
 }
 
-void ImageViewer::registerImage(const QString& path, QSharedPointer<QImage> image)
+void ImageViewer::registerImage(const QString &path, QSharedPointer<QImage> image)
 {
-    qDebug()<<"register: "<<path<<" ("<<image->size()<<")";
-    auto& d=imageData[path];
-    d->main=QSharedPointer<ImageXform>(new ImageXform(image));
-    if(isCurrentReady())
+    qDebug() << "register: " << path << " (" << image->size() << ")";
+    auto &d = imageData[path];
+    d->main = QSharedPointer<ImageXform>(new ImageXform(image));
+    if (isCurrentReady())
         invokeRepaint();
 }
 
 void ImageViewer::unregisterImage(const QString &path)
 {
-    paths.erase(paths.begin()+paths.indexOf(path));
+    paths.erase(paths.begin() + paths.indexOf(path));
     imageData.erase(imageData.find(path));
 }
 

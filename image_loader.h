@@ -14,7 +14,7 @@ namespace qtuimage
     class ImageLoader : public QObject
     {
         Q_OBJECT
-        static ImageLoader* singleton;
+        static ImageLoader *singleton;
 
     protected:
         QMap<QString, QSharedPointer<QImage>> images;
@@ -22,16 +22,16 @@ namespace qtuimage
         QMutex mtx;
         QAtomicInteger<uint8_t> terminateFlag;
 
-        void loadImage(const QString& path);
+        void loadImage(const QString &path);
 
     public:
         explicit ImageLoader(QObject *parent = nullptr);
 
-        static ImageLoader* getSingleton();
-        void request(const QString& path);
+        static ImageLoader *getSingleton();
+        void request(const QString &path);
 
     signals:
-        void requestHandled(const QString& path, QSharedPointer<QImage> result);
+        void requestHandled(const QString &path, QSharedPointer<QImage> result);
     };
 };
 

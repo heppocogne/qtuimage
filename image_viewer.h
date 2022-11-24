@@ -14,7 +14,7 @@ namespace qtuimage
         Q_OBJECT
 
         QStringList paths;
-        const QStringList supportedExtensions={
+        const QStringList supportedExtensions = {
             "bmp",
             "gif",
             "jpg",
@@ -29,8 +29,8 @@ namespace qtuimage
         };
         struct ImageData
         {
-            QSharedPointer<QImage> thumbnail=nullptr;
-            QSharedPointer<ImageXform> main=nullptr;
+            QSharedPointer<QImage> thumbnail = nullptr;
+            QSharedPointer<ImageXform> main = nullptr;
         };
         QMap<QString, QSharedPointer<ImageData>> imageData;
 
@@ -38,13 +38,13 @@ namespace qtuimage
         QPoint mousePosition;
         int current;
 
-        bool isCurrentReady()const;
+        bool isCurrentReady() const;
 
         QSize sizeHint(void) const;
 
         void keyPressEvent(QKeyEvent *event);
         void keyReleaseEvent(QKeyEvent *event);
-        void paintEvent(QPaintEvent*);
+        void paintEvent(QPaintEvent *);
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);
         void mouseReleaseEvent(QMouseEvent *event);
@@ -58,11 +58,11 @@ namespace qtuimage
     public:
         ImageViewer(QWidget *parent = nullptr);
 
-        void addPath(const QString& path);
-        void addPathRecursive(const QString& path);
-        void addImage(const QString& path);
-        void registerImage(const QString& path, QSharedPointer<QImage> image);
-        void unregisterImage(const QString& path);
+        void addPath(const QString &path);
+        void addPathRecursive(const QString &path);
+        void addImage(const QString &path);
+        void registerImage(const QString &path, QSharedPointer<QImage> image);
+        void unregisterImage(const QString &path);
         void unregisterImage(int index);
     };
 };

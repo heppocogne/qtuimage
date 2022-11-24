@@ -4,34 +4,36 @@
 
 using namespace qtuimage;
 
-ImageLoader* ImageLoader::singleton=nullptr;
+ImageLoader *ImageLoader::singleton = nullptr;
 
 ImageLoader::ImageLoader(QObject *parent)
     : QObject(parent)
 {
-
 }
 
-ImageLoader* ImageLoader::getSingleton()
+ImageLoader *ImageLoader::getSingleton()
 {
-    if(!singleton)
-        singleton=new ImageLoader;
+    if (!singleton)
+        singleton = new ImageLoader;
 
     return singleton;
 }
 
-void ImageLoader::loadImage(const QString& path)
+void ImageLoader::loadImage(const QString &path)
 {
     QSharedPointer<QImage> i(new QImage(path));
-    if(i.isNull())
-        qDebug()<<"load failed: "<<path;
+    if (i.isNull())
+        qDebug() << "load failed: " << path;
     else
-        qDebug()<<"load: "<<path<<" ("<<i->size()<<")";
-    emit requestHandled(path,i);
+        qDebug() << "load: " << path << " (" << i->size() << ")";
+    emit requestHandled(path, i);
 }
 
-void ImageLoader::request(const QString& path)
+void ImageLoader::request(const QString &path)
 {
-    qDebug()<<"requested: "<<path;
-    auto ret= QtConcurrent::task([&](const QString& p){loadImage(p);}).withArguments(path).spawn();
+    qDebug() << "requested: " << path;
+    auto ret = QtConcurrent::task([&](const QString &p)
+                                  { loadImage(p); })
+                   .withArguments(path)
+                   .spawn();
 }
