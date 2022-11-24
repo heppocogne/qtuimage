@@ -107,9 +107,9 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
 {
     if (leftClick)
     {
-        auto diff = event->pos() - mousePosition;
         if (isCurrentReady())
         {
+            auto diff = event->pos() - mousePosition;
             imageData[paths[current]]->main->global += diff;
             invokeRepaint();
         }
@@ -129,8 +129,10 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         leftClick = false;
 }
 
-void ImageViewer::resizeEvent(QResizeEvent *event)
+void ImageViewer::resizeEvent(QResizeEvent*)
 {
+    if (isCurrentReady())
+        invokeRepaint();
 }
 
 void ImageViewer::wheelEvent(QWheelEvent *event)
@@ -139,7 +141,13 @@ void ImageViewer::wheelEvent(QWheelEvent *event)
     {
         const double steps = event->angleDelta().y() / 120.0;
         auto &main = imageData[paths[current]]->main;
+        auto gp=event->position();
+        auto lp=main->mapToLocal(gp);
+        qDebug()<<"global="<<gp<<", local="<<lp;
+        qDebug()<<"after="<<main->global;
         main->setLog10Scale(main->getLog10Scale() + 0.1 * steps);
+        adjustImageScale();
+        main->overlapLocalOnGlobal(lp,gp);
         main->scalingMode = ImageXform::ScalingMode::USER_MANIPULATION;
         invokeRepaint();
     }

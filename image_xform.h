@@ -13,7 +13,6 @@ namespace qtuimage
     public:
         QSharedPointer<QImage> image;
         float scale;
-        QPointF local;
         QPointF global;
 
         enum class ScalingMode
@@ -26,8 +25,8 @@ namespace qtuimage
         explicit ImageXform(QSharedPointer<QImage> _image = nullptr);
         void setLog10Scale(float s) { scale = pow(10, s); }
         float getLog10Scale() const { return log10(scale); }
-        QTransform localXform() const;
-        QTransform xform() const;
+        QPointF mapToLocal(const QPointF& gp)const;
+        void overlapLocalOnGlobal(const QPointF& lp,const QPointF& gp);
         QRectF getDisplayRect() const;
     };
 };

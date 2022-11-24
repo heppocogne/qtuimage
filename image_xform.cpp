@@ -5,26 +5,25 @@ using namespace qtuimage;
 ImageXform::ImageXform(QSharedPointer<QImage> _image)
     : image(_image),
       scale(1.0),
-      local(0, 0),
       global(0, 0),
       scalingMode(ScalingMode::FIT_WINDOW)
 {
 }
 
-QTransform ImageXform::localXform() const
+QPointF ImageXform::mapToLocal(const QPointF& gp)const
 {
-    return QTransform::fromScale(scale, scale) * QTransform::fromTranslate(-local.x(), -local.y());
+    return (gp-global)/scale;
 }
 
-QTransform ImageXform::xform() const
+void ImageXform::overlapLocalOnGlobal(const QPointF& lp,const QPointF& gp)
 {
-    return QTransform::fromTranslate(global.x(), global.y()) * localXform();
+    global=gp-scale*lp;
 }
 
 QRectF ImageXform::getDisplayRect() const
 {
     if (image)
-        return xform().mapRect(QRectF(QPointF(0, 0), QSizeF(image->size())));
+        return QRectF(global,scale*image->size());
     else
         return QRectF(global, QSizeF(0, 0));
 }
