@@ -17,10 +17,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpszCmdLine, 
     qtuimage::MainWindow w;
 #ifdef QT_DEBUG
     if (1 < argc)
-        w.viewer->addImage(QString::fromLocal8Bit(argv[1]));
+        w.viewer->addPaths(QString::fromLocal8Bit(argv[1]));
 #else
     if (1 < __argc)
-        w.viewer->addImage(QString::fromLocal8Bit(__argv[1]));
+        w.viewer->addPaths(QString::fromLocal8Bit(__argv[1]));
 #endif
     w.show();
     return a.exec();

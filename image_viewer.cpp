@@ -7,6 +7,8 @@
 #include <QPaintEvent>
 #include <QDebug>
 #include <algorithm>
+#include <QDir>
+#include <QFileInfo>
 
 #include "image_loader.h"
 
@@ -175,11 +177,36 @@ void ImageViewer::wheelEvent(QWheelEvent *event)
     }
 }
 
-void ImageViewer::addPath(const QString &path)
+void ImageViewer::addPaths(const QString &path)
 {
+    auto info=QFileInfo(path);
+    if(!info.exists())
+        return;
+    if(info.isFile())
+    {
+        for(const auto& ext:supportedExtensions)
+        {
+            if(path.endsWith(ext))
+            {
+                addImage(path);
+                return;
+            }
+        }
+    }
+    else if(info.isDir())
+    {
+        for(const auto& child:QDir(path).entryInfoList(QDir::Files))
+        {
+            for(const auto& ext:supportedExtensions)
+            {
+                if(child.filePath().endsWith(ext))
+                    addImage(child.filePath());
+            }
+        }
+    }
 }
 
-void ImageViewer::addPathRecursive(const QString &path)
+void ImageViewer::addPathsRecursive(const QString &path)
 {
 }
 

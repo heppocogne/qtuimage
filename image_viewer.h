@@ -15,17 +15,17 @@ namespace qtuimage
 
         QStringList paths;
         const QStringList supportedExtensions = {
-            "bmp",
-            "gif",
-            "jpg",
-            "jpeg",
-            "png",
-            "pbm",
-            "pgm",
-            "ppm",
-            "xbm",
-            "xpm",
-            "svg",
+            ".bmp",
+            ".gif",
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".pbm",
+            ".pgm",
+            ".ppm",
+            ".xbm",
+            ".xpm",
+            ".svg",
         };
         struct ImageData
         {
@@ -58,8 +58,8 @@ namespace qtuimage
     public:
         ImageViewer(QWidget *parent = nullptr);
 
-        void addPath(const QString &path);
-        void addPathRecursive(const QString &path);
+        void addPaths(const QString &path);
+        void addPathsRecursive(const QString &path);
         void addImage(const QString &path);
         void registerImage(const QString &path, QSharedPointer<QImage> image);
         void unregisterImage(const QString &path);
