@@ -38,16 +38,22 @@ namespace qtuimage
         QPoint mousePosition;
         int current;
 
+        bool isCurrentReady()const;
+
         QSize sizeHint(void) const;
 
         void keyPressEvent(QKeyEvent *event);
         void keyReleaseEvent(QKeyEvent *event);
-        void paintEvent(QPaintEvent *event);
+        void paintEvent(QPaintEvent*);
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);
         void mouseReleaseEvent(QMouseEvent *event);
         void resizeEvent(QResizeEvent *event);
         void wheelEvent(QWheelEvent *event);
+
+        void invokeRepaint();
+        void adjustImageScale();
+        void adjustImagePosition();
 
     public:
         ImageViewer(QWidget *parent = nullptr);
