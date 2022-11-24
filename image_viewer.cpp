@@ -13,6 +13,7 @@
 #include <QDirIterator>
 
 #include "image_loader.h"
+#include "thumbnail_loader.h"
 
 using namespace qtuimage;
 
@@ -32,6 +33,7 @@ ImageViewer::ImageViewer(QWidget *parent)
     setPalette(pal);
 
     connect(ImageLoader::getSingleton(), &ImageLoader::requestHandled, this, &ImageViewer::registerImage);
+    connect(ThumbnailLoader::getSingleton(), &ThumbnailLoader::requestHandled, this, &ImageViewer::registerThumbnail);
 }
 
 bool ImageViewer::isCurrentReady() const
@@ -250,6 +252,7 @@ void ImageViewer::addImage(const QString &path)
     qDebug() << "add image: " << path;
     paths.push_back(path);
     imageData[path] = QSharedPointer<ImageData>(new ImageData);
+    ThumbnailLoader::getSingleton()->request(path);
 
     if (current < 0)
         current = 0;
@@ -257,20 +260,27 @@ void ImageViewer::addImage(const QString &path)
 
 void ImageViewer::registerImage(const QString &path, QSharedPointer<QImage> image)
 {
-    qDebug() << "register: " << path << " (" << image->size() << ")";
+    qDebug() << "register image: " << path << " (" << image->size() << ")";
     auto &d = imageData[path];
     d->main = QSharedPointer<ImageXform>(new ImageXform(image));
     if (isCurrentReady())
         invokeRepaint();
 }
 
-void ImageViewer::unregisterImage(const QString &path)
+void ImageViewer::removeImage(const QString &path)
 {
     paths.erase(paths.begin() + paths.indexOf(path));
     imageData.erase(imageData.find(path));
 }
 
-void ImageViewer::unregisterImage(int index)
+void ImageViewer::removeImage(int index)
 {
-    unregisterImage(paths[index]);
+    removeImage(paths[index]);
+}
+
+void ImageViewer::registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap)
+{
+    qDebug() << "register thumbnail: " << path << " (" << pixmap->size() << ")";
+    auto &d=imageData[path];
+    d->thumbnail=pixmap;
 }

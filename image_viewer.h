@@ -3,7 +3,7 @@
 
 #include <QGraphicsView>
 #include <QStringList>
-#include <QImage>
+#include <QPixmap>
 #include <QSharedPointer>
 #include "image_xform.h"
 
@@ -29,7 +29,7 @@ namespace qtuimage
         };
         struct ImageData
         {
-            QSharedPointer<QImage> thumbnail = nullptr;
+            QSharedPointer<QPixmap> thumbnail = nullptr;
             QSharedPointer<ImageXform> main = nullptr;
         };
         QMap<QString, QSharedPointer<ImageData>> imageData;
@@ -62,8 +62,9 @@ namespace qtuimage
         void addPathsRecursive(const QString &path);
         void addImage(const QString &path);
         void registerImage(const QString &path, QSharedPointer<QImage> image);
-        void unregisterImage(const QString &path);
-        void unregisterImage(int index);
+        void removeImage(const QString &path);
+        void removeImage(int index);
+        void registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap);
     };
 };
 

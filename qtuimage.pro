@@ -13,13 +13,15 @@ SOURCES += \
     image_viewer.cpp \
     image_xform.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    thumbnail_loader.cpp
 
 HEADERS += \
     image_loader.h \
     image_viewer.h \
     image_xform.h \
-    mainwindow.h
+    mainwindow.h \
+    thumbnail_loader.h
 
 DEPLOY_COMMAND = windeployqt
 
