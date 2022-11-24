@@ -142,13 +142,11 @@ void ImageViewer::wheelEvent(QWheelEvent *event)
         const double steps = event->angleDelta().y() / 120.0;
         auto &main = imageData[paths[current]]->main;
         auto gp=event->position();
-        auto lp=main->mapToLocal(gp);
-        qDebug()<<"global="<<gp<<", local="<<lp;
-        qDebug()<<"after="<<main->global;
+        auto lp=main->xform().inverted().map(gp);
+        main->scalingMode=ImageXform::ScalingMode::USER_MANIPULATION;
         main->setLog10Scale(main->getLog10Scale() + 0.1 * steps);
         adjustImageScale();
         main->overlapLocalOnGlobal(lp,gp);
-        main->scalingMode = ImageXform::ScalingMode::USER_MANIPULATION;
         invokeRepaint();
     }
 }

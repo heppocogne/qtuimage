@@ -10,9 +10,9 @@ ImageXform::ImageXform(QSharedPointer<QImage> _image)
 {
 }
 
-QPointF ImageXform::mapToLocal(const QPointF& gp)const
+QTransform ImageXform::xform()const
 {
-    return (gp-global)/scale;
+    return QTransform::fromScale(scale,scale)*QTransform::fromTranslate(global.x(),global.y());
 }
 
 void ImageXform::overlapLocalOnGlobal(const QPointF& lp,const QPointF& gp)

@@ -25,7 +25,7 @@ namespace qtuimage
         explicit ImageXform(QSharedPointer<QImage> _image = nullptr);
         void setLog10Scale(float s) { scale = pow(10, s); }
         float getLog10Scale() const { return log10(scale); }
-        QPointF mapToLocal(const QPointF& gp)const;
+        QTransform xform()const;
         void overlapLocalOnGlobal(const QPointF& lp,const QPointF& gp);
         QRectF getDisplayRect() const;
     };
