@@ -97,6 +97,13 @@ void ImageViewer::adjustImageScale()
         break;
     }
     d->scale = scale;
+
+    if(d->scale==1.0)
+        d->scalingMode=ImageXform::ScalingMode::ACTUAL_SIZE;
+    else if(scale==(float)vs.width() / is.width() || scale==(float)vs.height() / is.height())
+        d->scalingMode=ImageXform::ScalingMode::FIT_WINDOW;
+    else
+        d->scalingMode=ImageXform::ScalingMode::USER_MANIPULATION;
 }
 
 void ImageViewer::adjustImagePosition()
