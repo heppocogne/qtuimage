@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui svg concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,13 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    image_loader.cpp \
+    image_viewer.cpp \
     image_xform.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    image_loader.h \
+    image_viewer.h \
     image_xform.h \
     mainwindow.h
+
+DEPLOY_COMMAND = windeployqt
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

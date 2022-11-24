@@ -1,21 +1,35 @@
 #ifndef IMAGEXFORM_H
 #define IMAGEXFORM_H
 
-#include <QObject>
 #include <QImage>
 #include <QTransform>
+#include <QSharedPointer>
+#include <cmath>
 
-class ImageXform : public QObject
+namespace qtuimage
 {
-    Q_OBJECT
-public:
-    QImage* image;
-    QTransform xform;
+    class ImageXform
+    {
+    public:
+        QSharedPointer<QImage> image;
+        float scale;
+        QPointF local;
+        QPointF global;
 
-    explicit ImageXform(QObject *parent = nullptr, QImage* _image = nullptr);
+        enum class ScalingMode
+        {
+            FIT_WINDOW,
+            ACTUAL_SIZE,
+            USER_MANIPULATION,
+        } scaling_mode;
 
-signals:
-
+        explicit ImageXform(QSharedPointer<QImage> _image = nullptr);
+        void setLog10Scale(float s) { scale = pow(10, s); }
+        float getLog10Scale() const { return log10(scale); }
+        QTransform localXform() const;
+        QTransform xform() const;
+        QRectF getDisplayRect() const;
+    };
 };
 
 #endif // IMAGEXFORM_H

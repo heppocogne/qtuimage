@@ -2,18 +2,22 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QStringList>
-#include <QImage>
+#include "image_viewer.h"
 
-class MainWindow : public QMainWindow
+namespace qtuimage
 {
-    Q_OBJECT
+    class ImageViewer;
 
-    QStringList paths;
-    QList<QImage> thumbnails;
+    class MainWindow : public QMainWindow
+    {
+        Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    public:
+        ImageViewer *viewer;
+
+        MainWindow(QWidget *parent = nullptr);
+        ~MainWindow();
+    };
 };
+
 #endif // MAINWINDOW_H
