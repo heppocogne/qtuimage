@@ -108,6 +108,23 @@ void ImageViewer::adjustImageScale()
 
 void ImageViewer::adjustImagePosition()
 {
+    auto &main = imageData[paths[current]]->main;
+    auto is=main->image->size();
+    auto centerGlobal=main->xform().map(QPointF(is.width(),is.height())/2.0);
+
+    auto ds=main->getDisplayRect().size();
+    auto vs=viewport()->size();
+    if(ds.width()<=vs.width())
+        centerGlobal.setX(vs.width()/2.0);
+    if(ds.height()<=vs.height())
+        centerGlobal.setY(vs.height()/2.0);
+
+    main->overlapLocalOnGlobal(QPointF(is.width(),is.height())/2.0,centerGlobal);
+
+    if(vs.width()<ds.width())
+        main->global.setX(std::clamp(main->global.x(),(double)vs.width()-ds.width(),0.0));
+    if(vs.height()<ds.height())
+        main->global.setY(std::clamp(main->global.y(),(double)vs.height()-ds.height(),0.0));
 }
 
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
