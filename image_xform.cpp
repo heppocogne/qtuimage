@@ -7,7 +7,7 @@ ImageXform::ImageXform(QSharedPointer<QImage> _image)
       scale(1.0),
       local(0,0),
       global(0,0),
-      scaling_mode(ScalingMode::FIT_WINDOW)
+      scalingMode(ScalingMode::FIT_WINDOW)
 {
 }
 

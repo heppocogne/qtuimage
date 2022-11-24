@@ -21,7 +21,7 @@ namespace qtuimage
             FIT_WINDOW,
             ACTUAL_SIZE,
             USER_MANIPULATION,
-        } scaling_mode;
+        } scalingMode;
 
         explicit ImageXform(QSharedPointer<QImage> _image = nullptr);
         void setLog10Scale(float s) { scale = pow(10, s); }
