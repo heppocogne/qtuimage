@@ -102,33 +102,33 @@ void ImageViewer::adjustImageScale()
     }
     d->scale = scale;
 
-    if(d->scale==1.0)
-        d->scalingMode=ImageXform::ScalingMode::ACTUAL_SIZE;
-    else if(scale==(float)vs.width() / is.width() || scale==(float)vs.height() / is.height())
-        d->scalingMode=ImageXform::ScalingMode::FIT_WINDOW;
+    if (d->scale == 1.0)
+        d->scalingMode = ImageXform::ScalingMode::ACTUAL_SIZE;
+    else if (scale == (float)vs.width() / is.width() || scale == (float)vs.height() / is.height())
+        d->scalingMode = ImageXform::ScalingMode::FIT_WINDOW;
     else
-        d->scalingMode=ImageXform::ScalingMode::USER_MANIPULATION;
+        d->scalingMode = ImageXform::ScalingMode::USER_MANIPULATION;
 }
 
 void ImageViewer::adjustImagePosition()
 {
     auto &main = imageData[paths[current]]->main;
-    auto is=main->image->size();
-    auto centerGlobal=main->xform().map(QPointF(is.width(),is.height())/2.0);
+    auto is = main->image->size();
+    auto centerGlobal = main->xform().map(QPointF(is.width(), is.height()) / 2.0);
 
-    auto ds=main->getDisplayRect().size();
-    auto vs=viewport()->size();
-    if(ds.width()<=vs.width())
-        centerGlobal.setX(vs.width()/2.0);
-    if(ds.height()<=vs.height())
-        centerGlobal.setY(vs.height()/2.0);
+    auto ds = main->getDisplayRect().size();
+    auto vs = viewport()->size();
+    if (ds.width() <= vs.width())
+        centerGlobal.setX(vs.width() / 2.0);
+    if (ds.height() <= vs.height())
+        centerGlobal.setY(vs.height() / 2.0);
 
-    main->overlapLocalOnGlobal(QPointF(is.width(),is.height())/2.0,centerGlobal);
+    main->overlapLocalOnGlobal(QPointF(is.width(), is.height()) / 2.0, centerGlobal);
 
-    if(vs.width()<ds.width())
-        main->global.setX(std::clamp(main->global.x(),(double)vs.width()-ds.width(),0.0));
-    if(vs.height()<ds.height())
-        main->global.setY(std::clamp(main->global.y(),(double)vs.height()-ds.height(),0.0));
+    if (vs.width() < ds.width())
+        main->global.setX(std::clamp(main->global.x(), (double)vs.width() - ds.width(), 0.0));
+    if (vs.height() < ds.height())
+        main->global.setY(std::clamp(main->global.y(), (double)vs.height() - ds.height(), 0.0));
 }
 
 void ImageViewer::mouseMoveEvent(QMouseEvent *event)
@@ -157,7 +157,7 @@ void ImageViewer::mouseReleaseEvent(QMouseEvent *event)
         leftClick = false;
 }
 
-void ImageViewer::resizeEvent(QResizeEvent*)
+void ImageViewer::resizeEvent(QResizeEvent *)
 {
     if (isCurrentReady())
         invokeRepaint();
@@ -169,42 +169,42 @@ void ImageViewer::wheelEvent(QWheelEvent *event)
     {
         const double steps = event->angleDelta().y() / 120.0;
         auto &main = imageData[paths[current]]->main;
-        auto gp=event->position();
-        auto lp=main->xform().inverted().map(gp);
-        main->scalingMode=ImageXform::ScalingMode::USER_MANIPULATION;
+        auto gp = event->position();
+        auto lp = main->xform().inverted().map(gp);
+        main->scalingMode = ImageXform::ScalingMode::USER_MANIPULATION;
         main->setLog10Scale(main->getLog10Scale() + 0.1 * steps);
         adjustImageScale();
-        main->overlapLocalOnGlobal(lp,gp);
+        main->overlapLocalOnGlobal(lp, gp);
         invokeRepaint();
     }
 }
 
 void ImageViewer::addPaths(const QString &path)
 {
-    auto info=QFileInfo(path);
-    if(!info.exists())
+    auto info = QFileInfo(path);
+    if (!info.exists())
         return;
-    if(info.isFile())
+    if (info.isFile())
     {
-        for(const auto& ext:supportedExtensions)
+        for (const auto &ext : supportedExtensions)
         {
-            if(path.endsWith(ext))
+            if (path.endsWith(ext))
             {
                 addImage(path);
                 return;
             }
         }
     }
-    else if(info.isDir())
+    else if (info.isDir())
     {
-        for(const auto& child:QDir(path).entryInfoList(QDir::Files))
+        for (const auto &child : QDir(path).entryInfoList(QDir::Files))
         {
-            for(const auto& ext:supportedExtensions)
+            for (const auto &ext : supportedExtensions)
             {
-                if(child.filePath().endsWith(ext))
+                if (child.filePath().endsWith(ext))
                 {
-                     addImage(child.filePath());
-                     break;
+                    addImage(child.filePath());
+                    break;
                 }
             }
         }
@@ -213,32 +213,32 @@ void ImageViewer::addPaths(const QString &path)
 
 void ImageViewer::addPathsRecursive(const QString &path)
 {
-    auto info=QFileInfo(path);
-    if(!info.exists())
+    auto info = QFileInfo(path);
+    if (!info.exists())
         return;
-    if(info.isFile())
+    if (info.isFile())
     {
-        for(const auto& ext:supportedExtensions)
+        for (const auto &ext : supportedExtensions)
         {
-            if(path.endsWith(ext))
+            if (path.endsWith(ext))
             {
                 addImage(path);
                 return;
             }
         }
     }
-    else if(info.isDir())
+    else if (info.isDir())
     {
         QDirIterator directories(path, QDir::Files, QDirIterator::Subdirectories);
-        while(directories.hasNext())
+        while (directories.hasNext())
         {
             directories.next();
-            for(const auto& ext:supportedExtensions)
+            for (const auto &ext : supportedExtensions)
             {
-                if(directories.filePath().endsWith(ext))
+                if (directories.filePath().endsWith(ext))
                 {
-                     addImage(directories.filePath());
-                     break;
+                    addImage(directories.filePath());
+                    break;
                 }
             }
         }

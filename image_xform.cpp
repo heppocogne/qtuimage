@@ -10,20 +10,20 @@ ImageXform::ImageXform(QSharedPointer<QImage> _image)
 {
 }
 
-QTransform ImageXform::xform()const
+QTransform ImageXform::xform() const
 {
-    return QTransform::fromScale(scale,scale)*QTransform::fromTranslate(global.x(),global.y());
+    return QTransform::fromScale(scale, scale) * QTransform::fromTranslate(global.x(), global.y());
 }
 
-void ImageXform::overlapLocalOnGlobal(const QPointF& lp,const QPointF& gp)
+void ImageXform::overlapLocalOnGlobal(const QPointF &lp, const QPointF &gp)
 {
-    global=gp-scale*lp;
+    global = gp - scale * lp;
 }
 
 QRectF ImageXform::getDisplayRect() const
 {
     if (image)
-        return QRectF(global,scale*image->size());
+        return QRectF(global, scale * image->size());
     else
         return QRectF(global, QSizeF(0, 0));
 }

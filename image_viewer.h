@@ -48,7 +48,7 @@ namespace qtuimage
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);
         void mouseReleaseEvent(QMouseEvent *event);
-        void resizeEvent(QResizeEvent*);
+        void resizeEvent(QResizeEvent *);
         void wheelEvent(QWheelEvent *event);
 
         void invokeRepaint();
