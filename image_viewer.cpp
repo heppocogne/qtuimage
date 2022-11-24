@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <QDir>
 #include <QFileInfo>
+#include <QQueue>
+#include <QDirIterator>
 
 #include "image_loader.h"
 
@@ -200,7 +202,10 @@ void ImageViewer::addPaths(const QString &path)
             for(const auto& ext:supportedExtensions)
             {
                 if(child.filePath().endsWith(ext))
-                    addImage(child.filePath());
+                {
+                     addImage(child.filePath());
+                     break;
+                }
             }
         }
     }
@@ -208,6 +213,36 @@ void ImageViewer::addPaths(const QString &path)
 
 void ImageViewer::addPathsRecursive(const QString &path)
 {
+    auto info=QFileInfo(path);
+    if(!info.exists())
+        return;
+    if(info.isFile())
+    {
+        for(const auto& ext:supportedExtensions)
+        {
+            if(path.endsWith(ext))
+            {
+                addImage(path);
+                return;
+            }
+        }
+    }
+    else if(info.isDir())
+    {
+        QDirIterator directories(path, QDir::Files, QDirIterator::Subdirectories);
+        while(directories.hasNext())
+        {
+            directories.next();
+            for(const auto& ext:supportedExtensions)
+            {
+                if(directories.filePath().endsWith(ext))
+                {
+                     addImage(directories.filePath());
+                     break;
+                }
+            }
+        }
+    }
 }
 
 void ImageViewer::addImage(const QString &path)
