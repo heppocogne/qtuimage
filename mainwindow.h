@@ -15,10 +15,10 @@ namespace qtuimage
         Q_OBJECT
 
     public:
-        ImageViewer* const viewer;
+        ImageViewer *const viewer;
 
     private:
-        ThumbnailsContainer* const thumbnailsContainer;
+        ThumbnailsContainer *const thumbnailsContainer;
 
         void resizeEvent(QResizeEvent *);
 

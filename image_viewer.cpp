@@ -283,17 +283,17 @@ void ImageViewer::removeImage(int index)
 
 void ImageViewer::registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap)
 {
-    auto &d=imageData[path];
-    d->thumbnail=pixmap;
+    auto &d = imageData[path];
+    d->thumbnail = pixmap;
 
     emit thumbnailRegistered(path, pixmap);
 }
 
 void ImageViewer::onThumbnailSelected(const QString &path)
 {
-    current=paths.indexOf(path);
+    current = paths.indexOf(path);
 
-    if(isCurrentReady())
+    if (isCurrentReady())
         invokeRepaint();
     else
         ImageLoader::getSingleton()->request(path);

@@ -30,14 +30,14 @@ void ImageLoader::loadImage(const QString &path)
     emit requestHandled(path, i);
 
     mtx.lock();
-    requested.erase(requested.cbegin()+requested.indexOf(path));
+    requested.erase(requested.cbegin() + requested.indexOf(path));
     mtx.unlock();
 }
 
 bool ImageLoader::isLoading(const QString &path)
 {
     mtx.lock();
-    bool result=(0<=requested.indexOf(path));
+    bool result = (0 <= requested.indexOf(path));
     mtx.unlock();
 
     return result;
@@ -45,7 +45,7 @@ bool ImageLoader::isLoading(const QString &path)
 
 void ImageLoader::request(const QString &path)
 {
-    if(isLoading(path))
+    if (isLoading(path))
         return;
 
     mtx.lock();

@@ -11,52 +11,52 @@
 
 namespace qtuimage
 {
-    class ThumbnailButton: public QPushButton
+    class ThumbnailButton : public QPushButton
     {
         Q_OBJECT
 
         const QStringView path;
         static QSharedPointer<QIcon> defaultIcon;
-        static const QIcon& getDefaultIcon();
+        static const QIcon &getDefaultIcon();
 
     private slots:
         void onPressed();
 
     public:
-        ThumbnailButton(QWidget* parent, const QString& _path, QSharedPointer<QPixmap> pixmap=nullptr);
+        ThumbnailButton(QWidget *parent, const QString &_path, QSharedPointer<QPixmap> pixmap = nullptr);
         QSize sizeHint(void) const;
 
     signals:
-        void selected(const QString& path);
+        void selected(const QString &path);
     };
 
     class ThumbnailsContainer : public QScrollArea
     {
         Q_OBJECT
 
-        QStringList& paths;
-        QHBoxLayout* const layout;
+        QStringList &paths;
+        QHBoxLayout *const layout;
 
-        QMap<QString, ThumbnailButton*> buttons;
+        QMap<QString, ThumbnailButton *> buttons;
 
     private slots:
-        void onSelected(const QString& path);
+        void onSelected(const QString &path);
 
     public:
         static const constexpr auto containerCellWidth = 80;
         static const constexpr auto containerHeight = 96;
 
-        ThumbnailsContainer(QWidget* parent,QStringList& _paths);
+        ThumbnailsContainer(QWidget *parent, QStringList &_paths);
 
-        void addThumbnail(const QString& path, QSharedPointer<QPixmap> pixmap=nullptr);
+        void addThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap = nullptr);
         QSize sizeHint(void) const;
 
     public slots:
-        void setIcon(const QString& path, QSharedPointer<QPixmap> pixmap);
+        void setIcon(const QString &path, QSharedPointer<QPixmap> pixmap);
         void onPathsChanged();
 
     signals:
-        void selected(const QString& path);
+        void selected(const QString &path);
     };
 };
 

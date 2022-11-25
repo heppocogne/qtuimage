@@ -22,5 +22,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    thumbnailsContainer->setGeometry(QRect(QPoint(0,event->size().height()-ThumbnailsContainer::containerHeight),QSize(event->size().width(),ThumbnailsContainer::containerHeight)));
+    thumbnailsContainer->setGeometry(QRect(QPoint(0, event->size().height() - ThumbnailsContainer::containerHeight), QSize(event->size().width(), ThumbnailsContainer::containerHeight)));
 }

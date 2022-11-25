@@ -20,6 +20,7 @@ const QIcon& ThumbnailButton::getDefaultIcon()
     return *defaultIcon;
 }
 
+
 ThumbnailButton::ThumbnailButton(QWidget* parent, const QString& _path, QSharedPointer<QPixmap> pixmap)
     :QPushButton(parent),
       path(_path)

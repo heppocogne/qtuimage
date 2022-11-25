@@ -36,8 +36,8 @@ void ThumbnailLoader::loadPixmap(const QString &path)
         qDebug() << "load thumbnail: " << path << " (" << p->size() << ")";
 
     // save test
-    //p->save(getHashString(path) + ".jpg", "jpg", -1);
-    //p->save(getHashString(path) + ".png", "png", 0);
+    // p->save(getHashString(path) + ".jpg", "jpg", -1);
+    // p->save(getHashString(path) + ".png", "png", 0);
 
     emit requestHandled(path, p);
 }
