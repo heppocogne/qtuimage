@@ -5,6 +5,8 @@
 #include <QMap>
 #include <QImage>
 #include <QSharedPointer>
+#include <QStringList>
+#include <QMutex>
 
 namespace qtuimage
 {
@@ -14,12 +16,15 @@ namespace qtuimage
         static ImageLoader *singleton;
 
         QMap<QString, QSharedPointer<QImage>> images;
+        QStringList requested;
+        QMutex mtx;
 
         explicit ImageLoader(QObject *parent = nullptr);
         void loadImage(const QString &path);
 
     public:
         static ImageLoader *getSingleton();
+        bool isLoading(const QString &path);
         void request(const QString &path);
 
     signals:
