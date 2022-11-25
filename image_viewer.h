@@ -61,10 +61,10 @@ namespace qtuimage
         void addPaths(const QString &path);
         void addPathsRecursive(const QString &path);
         void addImage(const QString &path);
-        void registerImage(const QString &path, QSharedPointer<QImage> image);
+        slots void registerImage(const QString &path, QSharedPointer<QImage> image);
         void removeImage(const QString &path);
         void removeImage(int index);
-        void registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap);
+        slots void registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap);
     };
 };
 
