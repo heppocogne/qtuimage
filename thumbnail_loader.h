@@ -14,7 +14,6 @@ namespace qtuimage
     class ThumbnailLoader : public QObject
     {
         Q_OBJECT
-        static const constexpr int thumbnail_size = 64;
         static ThumbnailLoader *singleton;
 
         QMap<QString, QSharedPointer<QPixmap>> pixmaps;
@@ -24,6 +23,8 @@ namespace qtuimage
         static QString getHashString(const QString &str);
 
     public:
+        static const constexpr int thumbnail_size = 64;
+
         static ThumbnailLoader *getSingleton();
         void request(const QString &path);
 
