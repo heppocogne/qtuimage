@@ -50,6 +50,7 @@ namespace qtuimage
 
         void addThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap = nullptr);
         QSize sizeHint(void) const;
+        void wheelEvent(QWheelEvent *event);
 
     public slots:
         void setIcon(const QString &path, QSharedPointer<QPixmap> pixmap);

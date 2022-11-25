@@ -2,6 +2,8 @@
 #include "thumbnail_loader.h"
 #include <QDebug>
 #include <QSizePolicy>
+#include <QWheelEvent>
+#include <QScrollBar>
 
 using namespace qtuimage;
 
@@ -19,7 +21,6 @@ const QIcon& ThumbnailButton::getDefaultIcon()
     }
     return *defaultIcon;
 }
-
 
 ThumbnailButton::ThumbnailButton(QWidget* parent, const QString& _path, QSharedPointer<QPixmap> pixmap)
     :QPushButton(parent),
@@ -64,6 +65,12 @@ ThumbnailsContainer::ThumbnailsContainer(QWidget* parent, QStringList& _paths)
 QSize ThumbnailsContainer::sizeHint(void) const
 {
     return QSize(containerCellWidth*paths.size(), containerHeight);
+}
+
+void ThumbnailsContainer::wheelEvent(QWheelEvent *event)
+{
+    auto* const hsb=horizontalScrollBar();
+    hsb->setSliderPosition(hsb->sliderPosition()-event->angleDelta().y()/5);
 }
 
 void ThumbnailsContainer::addThumbnail(const QString& path, QSharedPointer<QPixmap> pixmap)
