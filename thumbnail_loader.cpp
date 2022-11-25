@@ -29,11 +29,11 @@ void ThumbnailLoader::loadPixmap(const QString &path)
 {
     auto original = QPixmap(path);
     QSharedPointer<QPixmap> p(new QPixmap);
-    *p = original.scaled(QSize(thumbnail_size, thumbnail_size), Qt::KeepAspectRatio);
+    *p = original.scaled(QSize(thumbnailSize, thumbnailSize), Qt::KeepAspectRatio);
     if (p.isNull())
-        qDebug() << "load failed: " << path;
+        qDebug() << "failed to load thumbnail: " << path;
     else
-        qDebug() << "load: " << path << " (" << p->size() << ")";
+        qDebug() << "load thumbnail: " << path << " (" << p->size() << ")";
 
     // save test
     //p->save(getHashString(path) + ".jpg", "jpg", -1);
@@ -44,7 +44,6 @@ void ThumbnailLoader::loadPixmap(const QString &path)
 
 void ThumbnailLoader::request(const QString &path)
 {
-    qDebug() << "requested: " << path;
     auto ret = QtConcurrent::task([&](const QString &p)
                                   { loadPixmap(p); })
                    .withArguments(path)

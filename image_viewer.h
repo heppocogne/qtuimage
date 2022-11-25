@@ -13,7 +13,6 @@ namespace qtuimage
     {
         Q_OBJECT
 
-        QStringList paths;
         const QStringList supportedExtensions = {
             ".bmp",
             ".gif",
@@ -56,6 +55,8 @@ namespace qtuimage
         void adjustImagePosition();
 
     public:
+        QStringList paths;
+
         ImageViewer(QWidget *parent = nullptr);
 
         void addPaths(const QString &path);
@@ -67,6 +68,11 @@ namespace qtuimage
     public slots:
         void registerImage(const QString &path, QSharedPointer<QImage> image);
         void registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap);
+        void onThumbnailSelected(const QString &path);
+
+    signals:
+        void pathsChanged();
+        void thumbnailRegistered(const QString &path, QSharedPointer<QPixmap> pixmap);
     };
 };
 

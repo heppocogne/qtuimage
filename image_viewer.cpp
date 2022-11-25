@@ -256,11 +256,12 @@ void ImageViewer::addImage(const QString &path)
 
     if (current < 0)
         current = 0;
+
+    emit pathsChanged();
 }
 
 void ImageViewer::registerImage(const QString &path, QSharedPointer<QImage> image)
 {
-    qDebug() << "register image: " << path << " (" << image->size() << ")";
     auto &d = imageData[path];
     d->main = QSharedPointer<ImageXform>(new ImageXform(image));
     if (isCurrentReady())
@@ -271,6 +272,8 @@ void ImageViewer::removeImage(const QString &path)
 {
     paths.erase(paths.begin() + paths.indexOf(path));
     imageData.erase(imageData.find(path));
+
+    emit pathsChanged();
 }
 
 void ImageViewer::removeImage(int index)
@@ -280,7 +283,18 @@ void ImageViewer::removeImage(int index)
 
 void ImageViewer::registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap)
 {
-    qDebug() << "register thumbnail: " << path << " (" << pixmap->size() << ")";
     auto &d=imageData[path];
     d->thumbnail=pixmap;
+
+    emit thumbnailRegistered(path, pixmap);
+}
+
+void ImageViewer::onThumbnailSelected(const QString &path)
+{
+    current=paths.indexOf(path);
+
+    if(isCurrentReady())
+        invokeRepaint();
+    else
+        ImageLoader::getSingleton()->request(path);
 }

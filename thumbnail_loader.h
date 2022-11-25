@@ -23,7 +23,7 @@ namespace qtuimage
         static QString getHashString(const QString &str);
 
     public:
-        static const constexpr int thumbnail_size = 64;
+        static const constexpr int thumbnailSize = 64;
 
         static ThumbnailLoader *getSingleton();
         void request(const QString &path);
