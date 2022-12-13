@@ -52,6 +52,8 @@ ThumbnailsContainer::ThumbnailsContainer(QWidget* parent, QStringList& _paths)
       paths(_paths),
       layout(new QHBoxLayout(this))
 {
+    setVisible(false);
+
     QWidget* const w=new QWidget(this);
     layout->setContentsMargins(0,0,0,0);
     w->setLayout(layout);
@@ -70,7 +72,7 @@ QSize ThumbnailsContainer::sizeHint(void) const
 void ThumbnailsContainer::wheelEvent(QWheelEvent *event)
 {
     auto* const hsb=horizontalScrollBar();
-    hsb->setSliderPosition(hsb->sliderPosition()-event->angleDelta().y()/5);
+    hsb->setSliderPosition(hsb->sliderPosition()-event->angleDelta().y()/4);
 }
 
 void ThumbnailsContainer::addThumbnail(const QString& path, QSharedPointer<QPixmap> pixmap)
