@@ -34,7 +34,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     const auto y=event->pos().y();
     const auto w=size().width();
     const auto h=size().height();
-    qDebug()<<"pos="<<event->pos()<<", size="<<size();
     if(0<=x && x<w && h-ThumbnailsContainer::containerHeight<=y && y<h)
         thumbnailsContainer->setVisible(true);
     else
