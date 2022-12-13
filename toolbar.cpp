@@ -2,8 +2,7 @@
 
 using namespace qtuimage;
 
-ToolBar::ToolBar(QWidget* parent)
-    :QToolBar(parent)
+ToolBar::ToolBar(QWidget *parent)
+    : QToolBar(parent)
 {
-
 }

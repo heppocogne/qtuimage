@@ -9,7 +9,7 @@ namespace qtuimage
     {
         Q_OBJECT
     public:
-        ToolBar(QWidget* parent);
+        ToolBar(QWidget *parent);
     };
 };
 

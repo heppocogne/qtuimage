@@ -11,11 +11,11 @@ MainWindow::MainWindow(QWidget *parent)
       thumbnailsContainer(new ThumbnailsContainer(nullptr, viewer->paths)),
       toolbar(new ToolBar(this))
 {
-    QWidget* const centralWidget=new QWidget(this);
-    QVBoxLayout* const l=new QVBoxLayout(centralWidget);
+    QWidget *const centralWidget = new QWidget(this);
+    QVBoxLayout *const l = new QVBoxLayout(centralWidget);
     l->addWidget(toolbar);
     l->addWidget(viewer);
-    l->setContentsMargins(QMargins(0,0,0,0));
+    l->setContentsMargins(QMargins(0, 0, 0, 0));
     centralWidget->setLayout(l);
     setCentralWidget(centralWidget);
     setMouseTracking(true);
@@ -42,12 +42,11 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::onMouseMoved(QMouseEvent *event)
 {
-    qDebug()<<"onMouseMoved("<<event->pos()<<")";
-    const auto x=event->pos().x();
-    const auto y=event->pos().y();
-    const auto w=size().width();
-    const auto h=size().height();
-    if(0<=x && x<w && h-ThumbnailsContainer::containerHeight<=y && y<h)
+    const auto x = event->pos().x();
+    const auto y = event->pos().y();
+    const auto w = size().width();
+    const auto h = size().height();
+    if (0 <= x && x < w && h - ThumbnailsContainer::containerHeight <= y && y < h)
         thumbnailsContainer->setVisible(true);
     else
         thumbnailsContainer->setVisible(false);

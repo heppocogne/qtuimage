@@ -20,10 +20,9 @@ namespace qtuimage
 
     private:
         ThumbnailsContainer *const thumbnailsContainer;
-        ToolBar* const toolbar;
+        ToolBar *const toolbar;
 
         void resizeEvent(QResizeEvent *event);
-        //void mouseMoveEvent(QMouseEvent *event);
 
     private slots:
         void onMouseMoved(QMouseEvent *event);
