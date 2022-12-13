@@ -11,11 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
       thumbnailsContainer(new ThumbnailsContainer(nullptr, viewer->paths)),
       toolbar(new ToolBar(this))
 {
+    resize(1200, 900);
     QWidget *const centralWidget = new QWidget(this);
     QVBoxLayout *const l = new QVBoxLayout(centralWidget);
     l->addWidget(toolbar);
     l->addWidget(viewer);
     l->setContentsMargins(QMargins(0, 0, 0, 0));
+    l->setSpacing(0);
     centralWidget->setLayout(l);
     setCentralWidget(centralWidget);
     setMouseTracking(true);
