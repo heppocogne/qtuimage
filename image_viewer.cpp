@@ -145,6 +145,7 @@ void ImageViewer::mouseMoveEvent(QMouseEvent *event)
         }
     }
     mousePosition = event->pos();
+    event->ignore();
 }
 
 void ImageViewer::mousePressEvent(QMouseEvent *event)

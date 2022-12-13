@@ -21,6 +21,7 @@ namespace qtuimage
         ThumbnailsContainer *const thumbnailsContainer;
 
         void resizeEvent(QResizeEvent *);
+        void mouseMoveEvent(QMouseEvent *event);
 
     public:
         MainWindow(QWidget *parent = nullptr);
