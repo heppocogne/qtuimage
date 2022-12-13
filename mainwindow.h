@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include "image_viewer.h"
 #include "thumbnails_container.h"
+#include "toolbar.h"
 
 namespace qtuimage
 {
@@ -19,9 +20,13 @@ namespace qtuimage
 
     private:
         ThumbnailsContainer *const thumbnailsContainer;
+        ToolBar* const toolbar;
 
-        void resizeEvent(QResizeEvent *);
-        void mouseMoveEvent(QMouseEvent *event);
+        void resizeEvent(QResizeEvent *event);
+        //void mouseMoveEvent(QMouseEvent *event);
+
+    private slots:
+        void onMouseMoved(QMouseEvent *event);
 
     public:
         MainWindow(QWidget *parent = nullptr);

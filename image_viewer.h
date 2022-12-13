@@ -73,6 +73,7 @@ namespace qtuimage
     signals:
         void pathsChanged();
         void thumbnailRegistered(const QString &path, QSharedPointer<QPixmap> pixmap);
+        void mouseMoved(QMouseEvent *event);
     };
 };
 

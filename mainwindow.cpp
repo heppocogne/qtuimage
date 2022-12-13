@@ -8,11 +8,23 @@ using namespace qtuimage;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       viewer(new ImageViewer(this)),
-      thumbnailsContainer(new ThumbnailsContainer(this, viewer->paths))
+      thumbnailsContainer(new ThumbnailsContainer(nullptr, viewer->paths)),
+      toolbar(new ToolBar(this))
 {
-    setCentralWidget(viewer);
+    QWidget* const centralWidget=new QWidget(this);
+    QVBoxLayout* const l=new QVBoxLayout(centralWidget);
+    l->addWidget(toolbar);
+    l->addWidget(viewer);
+    l->setContentsMargins(QMargins(0,0,0,0));
+    centralWidget->setLayout(l);
+    setCentralWidget(centralWidget);
     setMouseTracking(true);
+
+    // add "thumbnailsContainer" as a child after "centralWidget"
+    thumbnailsContainer->setParent(this);
+
     connect(viewer, &ImageViewer::pathsChanged, thumbnailsContainer, &ThumbnailsContainer::onPathsChanged);
+    connect(viewer, &ImageViewer::mouseMoved, this, &MainWindow::onMouseMoved);
     connect(viewer, &ImageViewer::thumbnailRegistered, thumbnailsContainer, &ThumbnailsContainer::setIcon);
     connect(thumbnailsContainer, &ThumbnailsContainer::selected, viewer, &ImageViewer::onThumbnailSelected);
 }
@@ -28,8 +40,9 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     thumbnailsContainer->setGeometry(QRect(QPoint(0, event->size().height() - ThumbnailsContainer::containerHeight), QSize(event->size().width(), ThumbnailsContainer::containerHeight)));
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
+void MainWindow::onMouseMoved(QMouseEvent *event)
 {
+    qDebug()<<"onMouseMoved("<<event->pos()<<")";
     const auto x=event->pos().x();
     const auto y=event->pos().y();
     const auto w=size().width();

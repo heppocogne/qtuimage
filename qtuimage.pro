@@ -15,7 +15,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     thumbnail_loader.cpp \
-    thumbnails_container.cpp
+    thumbnails_container.cpp \
+    toolbar.cpp
 
 HEADERS += \
     image_loader.h \
@@ -23,7 +24,8 @@ HEADERS += \
     image_xform.h \
     mainwindow.h \
     thumbnail_loader.h \
-    thumbnails_container.h
+    thumbnails_container.h \
+    toolbar.h
 
 DEPLOY_COMMAND = windeployqt
 
