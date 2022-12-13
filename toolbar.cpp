@@ -4,6 +4,8 @@
 #include <QDir>
 #include <QStandardPaths>
 
+#include "configure.h"
+
 using namespace qtuimage;
 
 ToolBar::ToolBar(QWidget *parent)
@@ -25,7 +27,7 @@ void ToolBar::openFileSelector()
 {
     const QString selected=QFileDialog::getOpenFileName(this,
                                "Open File",
-                               "",
+                               Configure::getSingleton()->get<QString>("directory"),
                                "Images (*.png *.jpg *.bmp *.gif *.svg)");
 
     if(selected!="")
@@ -36,7 +38,7 @@ void ToolBar::openFolderSelector()
 {
     const QString selected=QFileDialog::getExistingDirectory(this,
                                "Open Folder",
-                               "");
+                               Configure::getSingleton()->get<QString>("directory"));
 
     if(selected!="")
         emit pathSelected(selected);

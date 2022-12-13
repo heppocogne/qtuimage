@@ -4,6 +4,8 @@
 #include <QResizeEvent>
 #include <QCoreApplication>
 
+#include "configure.h"
+
 using namespace qtuimage;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
       thumbnailsContainer(new ThumbnailsContainer(nullptr, viewer->paths)),
       toolbar(new ToolBar(this))
 {
-    resize(1200, 900);
+    auto *cfg = Configure::getSingleton();
+    resize(cfg->get("window.width", 1200), cfg->get("window.height", 900));
     QWidget *const centralWidget = new QWidget(this);
     QVBoxLayout *const l = new QVBoxLayout(centralWidget);
     l->addWidget(toolbar);
@@ -43,6 +46,9 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     thumbnailsContainer->setGeometry(QRect(QPoint(0, event->size().height() - ThumbnailsContainer::containerHeight), QSize(event->size().width(), ThumbnailsContainer::containerHeight)));
+    auto *cfg = Configure::getSingleton();
+    cfg->set("window.width", event->size().width());
+    cfg->set("window.height", event->size().height());
 }
 
 void MainWindow::onMouseMoved(QMouseEvent *event)
@@ -70,5 +76,5 @@ void MainWindow::quitRequested()
 
 void MainWindow::onQuitApp()
 {
-    qDebug()<<"onQuitApp()";
+    Configure::removeSingleton();
 }

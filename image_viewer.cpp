@@ -14,6 +14,7 @@
 
 #include "image_loader.h"
 #include "thumbnail_loader.h"
+#include "configure.h"
 
 using namespace qtuimage;
 
@@ -185,10 +186,12 @@ void ImageViewer::wheelEvent(QWheelEvent *event)
 void ImageViewer::addPaths(const QString &path)
 {
     auto info = QFileInfo(path);
+    auto *cfg = Configure::getSingleton();
     if (!info.exists())
         return;
     if (info.isFile())
     {
+        cfg->set("directory", info.path());
         for (const auto &ext : supportedExtensions)
         {
             if (path.endsWith(ext))
@@ -200,6 +203,7 @@ void ImageViewer::addPaths(const QString &path)
     }
     else if (info.isDir())
     {
+        cfg->set("directory", path);
         for (const auto &child : QDir(path).entryInfoList(QDir::Files))
         {
             for (const auto &ext : supportedExtensions)
@@ -219,8 +223,10 @@ void ImageViewer::addPathsRecursive(const QString &path)
     auto info = QFileInfo(path);
     if (!info.exists())
         return;
+    auto *cfg = Configure::getSingleton();
     if (info.isFile())
     {
+        cfg->set("directory", info.path());
         for (const auto &ext : supportedExtensions)
         {
             if (path.endsWith(ext))
@@ -232,6 +238,7 @@ void ImageViewer::addPathsRecursive(const QString &path)
     }
     else if (info.isDir())
     {
+        cfg->set("directory", path);
         QDirIterator directories(path, QDir::Files, QDirIterator::Subdirectories);
         while (directories.hasNext())
         {
