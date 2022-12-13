@@ -2,6 +2,7 @@
 
 #include <QPalette>
 #include <QResizeEvent>
+#include <QCoreApplication>
 
 using namespace qtuimage;
 
@@ -28,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(viewer, &ImageViewer::pathsChanged, thumbnailsContainer, &ThumbnailsContainer::onPathsChanged);
     connect(viewer, &ImageViewer::mouseMoved, this, &MainWindow::onMouseMoved);
     connect(viewer, &ImageViewer::thumbnailRegistered, thumbnailsContainer, &ThumbnailsContainer::setIcon);
+    connect(toolbar, &ToolBar::pathSelected, viewer, &ImageViewer::addPaths);
+    connect(toolbar, &ToolBar::quitRequest, this, &MainWindow::quitRequested);
     connect(thumbnailsContainer, &ThumbnailsContainer::selected, viewer, &ImageViewer::onThumbnailSelected);
 }
 
@@ -52,4 +55,20 @@ void MainWindow::onMouseMoved(QMouseEvent *event)
         thumbnailsContainer->setVisible(true);
     else
         thumbnailsContainer->setVisible(false);
+}
+
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    onQuitApp();
+}
+
+void MainWindow::quitRequested()
+{
+    onQuitApp();
+    QCoreApplication::exit(0);
+}
+
+void MainWindow::onQuitApp()
+{
+    qDebug()<<"onQuitApp()";
 }

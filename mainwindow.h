@@ -23,9 +23,12 @@ namespace qtuimage
         ToolBar *const toolbar;
 
         void resizeEvent(QResizeEvent *event);
+        void closeEvent(QCloseEvent *);
+        void onQuitApp();
 
     private slots:
         void onMouseMoved(QMouseEvent *event);
+        void quitRequested();
 
     public:
         MainWindow(QWidget *parent = nullptr);
