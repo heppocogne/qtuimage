@@ -31,6 +31,8 @@ HEADERS += \
 
 DEPLOY_COMMAND = windeployqt
 
+RC_ICONS = qtuimage_icon.ico
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
