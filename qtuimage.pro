@@ -1,5 +1,7 @@
 QT       += core gui svg concurrent
 
+VERSION = 0.0.1.0
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
