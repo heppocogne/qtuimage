@@ -45,6 +45,8 @@ Configure::Configure()
 
         values["window.width"] = 1200;
         values["window.height"] = 900;
+        values["window.pos_x"] = 60;
+        values["window.pos_y"] = 45;
         values["directory"] = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     }
 }

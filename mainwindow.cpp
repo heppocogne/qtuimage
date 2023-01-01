@@ -14,8 +14,14 @@ MainWindow::MainWindow(QWidget *parent)
       thumbnailsContainer(new ThumbnailsContainer(nullptr, viewer->paths)),
       toolbar(new ToolBar(this))
 {
-    auto *cfg = Configure::getSingleton();
-    resize(cfg->get("window.width", 1200), cfg->get("window.height", 900));
+    // restore geometry
+    auto *const cfg = Configure::getSingleton();
+    setGeometry(QRect(
+                    cfg->get("window.pos_x",60),
+                    cfg->get("window.pos_y",45),
+                    cfg->get("window.width", 1200),
+                    cfg->get("window.height", 900)
+                ));
     QWidget *const centralWidget = new QWidget(this);
     QVBoxLayout *const l = new QVBoxLayout(centralWidget);
     l->addWidget(toolbar);
@@ -46,9 +52,6 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     thumbnailsContainer->setGeometry(QRect(QPoint(0, event->size().height() - ThumbnailsContainer::containerHeight), QSize(event->size().width(), ThumbnailsContainer::containerHeight)));
-    auto *cfg = Configure::getSingleton();
-    cfg->set("window.width", event->size().width());
-    cfg->set("window.height", event->size().height());
 }
 
 void MainWindow::onMouseMoved(QMouseEvent *event)
@@ -76,5 +79,12 @@ void MainWindow::quitRequested()
 
 void MainWindow::onQuitApp()
 {
+    const auto& geo=geometry();
+    auto *const cfg = Configure::getSingleton();
+    // remember geometry
+    cfg->set("window.width", geo.width());
+    cfg->set("window.height", geo.height());
+    cfg->set("window.pos_x", geo.x());
+    cfg->set("window.pos_y", geo.y());
     Configure::removeSingleton();
 }
