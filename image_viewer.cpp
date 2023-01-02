@@ -70,6 +70,14 @@ void ImageViewer::keyPressEvent(QKeyEvent *event)
             current = paths.size() - 1;
         onThumbnailSelected(paths[current]);
         break;
+    case Qt::Key_Plus:
+    case Qt::Key_Semicolon:
+        _scaleing(0.1, geometry().center());
+        break;
+    case Qt::Key_Minus:
+    case Qt::Key_hyphen:
+        _scaleing(-0.1, geometry().center());
+        break;
     }
 }
 
@@ -178,19 +186,23 @@ void ImageViewer::resizeEvent(QResizeEvent *)
         invokeRepaint();
 }
 
+void ImageViewer::_scaleing(float s, const QPointF &center)
+{
+    auto &main = imageData[paths[current]]->main;
+    auto lp = main->xform().inverted().map(center);
+    main->scalingMode = ImageXform::ScalingMode::USER_MANIPULATION;
+    main->setLog10Scale(main->getLog10Scale() + s);
+    adjustImageScale();
+    main->overlapLocalOnGlobal(lp, center);
+    invokeRepaint();
+}
+
 void ImageViewer::wheelEvent(QWheelEvent *event)
 {
     if (isCurrentReady())
     {
         const double steps = event->angleDelta().y() / 120.0;
-        auto &main = imageData[paths[current]]->main;
-        auto gp = event->position();
-        auto lp = main->xform().inverted().map(gp);
-        main->scalingMode = ImageXform::ScalingMode::USER_MANIPULATION;
-        main->setLog10Scale(main->getLog10Scale() + 0.1 * steps);
-        adjustImageScale();
-        main->overlapLocalOnGlobal(lp, gp);
-        invokeRepaint();
+        _scaleing(steps * 0.1, event->position());
     }
 }
 

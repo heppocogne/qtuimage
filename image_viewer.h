@@ -52,6 +52,7 @@ namespace qtuimage
         void invokeRepaint();
         void adjustImageScale();
         void adjustImagePosition();
+        void _scaleing(float s, const QPointF &center);
 
     public:
         QStringList paths;
