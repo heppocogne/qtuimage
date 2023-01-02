@@ -56,6 +56,7 @@ QSize ImageViewer::sizeHint(void) const
 
 void ImageViewer::keyPressEvent(QKeyEvent *event)
 {
+    const int diff = 32;
     switch (event->key())
     {
     case Qt::Key_Tab:
@@ -77,6 +78,22 @@ void ImageViewer::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Minus:
     case Qt::Key_hyphen:
         _scaleing(-0.1, geometry().center());
+        break;
+    case Qt::Key_Left:
+        imageData[paths[current]]->main->global.rx() += diff;
+        invokeRepaint();
+        break;
+    case Qt::Key_Right:
+        imageData[paths[current]]->main->global.rx() -= diff;
+        invokeRepaint();
+        break;
+    case Qt::Key_Up:
+        imageData[paths[current]]->main->global.ry() += diff;
+        invokeRepaint();
+        break;
+    case Qt::Key_Down:
+        imageData[paths[current]]->main->global.ry() -= diff;
+        invokeRepaint();
         break;
     }
 }
