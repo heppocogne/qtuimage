@@ -42,7 +42,6 @@ namespace qtuimage
         QSize sizeHint(void) const;
 
         void keyPressEvent(QKeyEvent *event);
-        void keyReleaseEvent(QKeyEvent *event);
         void paintEvent(QPaintEvent *);
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);

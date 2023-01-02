@@ -56,10 +56,21 @@ QSize ImageViewer::sizeHint(void) const
 
 void ImageViewer::keyPressEvent(QKeyEvent *event)
 {
-}
-
-void ImageViewer::keyReleaseEvent(QKeyEvent *event)
-{
+    switch (event->key())
+    {
+    case Qt::Key_Tab:
+        current++;
+        if (current == paths.size())
+            current = 0;
+        onThumbnailSelected(paths[current]);
+        break;
+    case Qt::Key_Backtab:
+        current--;
+        if (current < 0)
+            current = paths.size() - 1;
+        onThumbnailSelected(paths[current]);
+        break;
+    }
 }
 
 void ImageViewer::paintEvent(QPaintEvent *)
