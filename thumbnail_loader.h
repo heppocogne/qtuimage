@@ -15,6 +15,7 @@ namespace qtuimage
     {
         Q_OBJECT
         static ThumbnailLoader *singleton;
+        static const QString thumbnailCachePath;
 
         QMap<QString, QSharedPointer<QPixmap>> pixmaps;
 
