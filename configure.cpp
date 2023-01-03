@@ -26,7 +26,7 @@ void Configure::removeSingleton()
 
 Configure::Configure()
 {
-    qDebug() << filename;
+    qDebug() << "config: " << filename;
     QFile file(filename);
     if (file.exists())
     {
@@ -39,7 +39,6 @@ Configure::Configure()
     else
     {
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
-        qDebug() << dir.absolutePath();
         if (!dir.exists())
             dir.mkdir(dir.absolutePath());
 
