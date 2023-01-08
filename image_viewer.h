@@ -26,6 +26,7 @@ namespace qtuimage
             ".xpm",
             ".svg",
         };
+        const int maxThumbnailLoadRequest = 32;
         struct ImageData
         {
             QSharedPointer<QPixmap> thumbnail = nullptr;
@@ -36,8 +37,11 @@ namespace qtuimage
         bool leftClick;
         QPoint mousePosition;
         int current;
+        int thumbnailLoadRequest;
+        int lastLoadedThumbnail;
 
         bool isCurrentReady() const;
+        bool isThumbnailReady(const QString& path) const;
 
         QSize sizeHint(void) const;
 
@@ -69,6 +73,7 @@ namespace qtuimage
         void registerImage(const QString &path, QSharedPointer<QImage> image);
         void registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap);
         void onThumbnailSelected(const QString &path);
+        void onThumbnailScrolled(int left);
 
     signals:
         void pathsChanged();

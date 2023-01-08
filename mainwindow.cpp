@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(toolbar, &ToolBar::pathSelected, viewer, &ImageViewer::addPaths);
     connect(toolbar, &ToolBar::quitRequest, this, &MainWindow::quitRequested);
     connect(thumbnailsContainer, &ThumbnailsContainer::selected, viewer, &ImageViewer::onThumbnailSelected);
+    connect(thumbnailsContainer, &ThumbnailsContainer::scrolled, viewer, &ImageViewer::onThumbnailScrolled);
 }
 
 MainWindow::~MainWindow()

@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QMap>
+#include "thumbnail_loader.h"
 
 namespace qtuimage
 {
@@ -43,7 +44,7 @@ namespace qtuimage
         void onSelected(const QString &path);
 
     public:
-        static const constexpr auto containerCellWidth = 80;
+        static const constexpr auto containerCellWidth = ThumbnailLoader::thumbnailSize;
         static const constexpr auto containerHeight = 96;
 
         ThumbnailsContainer(QWidget *parent, QStringList &_paths);
@@ -58,6 +59,7 @@ namespace qtuimage
 
     signals:
         void selected(const QString &path);
+        void scrolled(int left);
     };
 };
 

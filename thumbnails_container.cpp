@@ -73,6 +73,7 @@ void ThumbnailsContainer::wheelEvent(QWheelEvent *event)
 {
     auto *const hsb = horizontalScrollBar();
     hsb->setSliderPosition(hsb->sliderPosition() - event->angleDelta().y() / 4);
+    emit scrolled(hsb->sliderPosition()/(64+layout->spacing()));
 }
 
 void ThumbnailsContainer::addThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap)

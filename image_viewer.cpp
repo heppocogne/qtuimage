@@ -21,7 +21,9 @@ using namespace qtuimage;
 ImageViewer::ImageViewer(QWidget *parent)
     : QGraphicsView(parent),
       leftClick(false),
-      current(-1)
+      current(-1),
+      thumbnailLoadRequest(0),
+      lastLoadedThumbnail(0)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -40,6 +42,11 @@ ImageViewer::ImageViewer(QWidget *parent)
 bool ImageViewer::isCurrentReady() const
 {
     return 0 <= current && imageData[paths[current]] && imageData[paths[current]]->main;
+}
+
+bool ImageViewer::isThumbnailReady(const QString& path) const
+{
+    return imageData[path]->thumbnail!=nullptr;
 }
 
 QSize ImageViewer::sizeHint(void) const
@@ -300,7 +307,11 @@ void ImageViewer::addImage(const QString &path)
     qDebug() << "add image: " << path;
     paths.push_back(path);
     imageData[path] = QSharedPointer<ImageData>(new ImageData);
-    ThumbnailLoader::getSingleton()->request(path);
+    if(thumbnailLoadRequest<=maxThumbnailLoadRequest)
+    {
+        ThumbnailLoader::getSingleton()->request(path);
+        thumbnailLoadRequest++;
+    }
 
     if (current < 0)
         current = 0;
@@ -331,6 +342,9 @@ void ImageViewer::removeImage(int index)
 
 void ImageViewer::registerThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap)
 {
+    if(0<thumbnailLoadRequest)
+        thumbnailLoadRequest--;
+
     auto &d = imageData[path];
     d->thumbnail = pixmap;
 
@@ -345,4 +359,16 @@ void ImageViewer::onThumbnailSelected(const QString &path)
         invokeRepaint();
     else
         ImageLoader::getSingleton()->request(path);
+}
+
+void ImageViewer::onThumbnailScrolled(int left)
+{
+    for(int i=lastLoadedThumbnail;i<left+maxThumbnailLoadRequest;i++)
+    {
+        if(paths.size()<=i)
+            break;
+        if(!isThumbnailReady(paths[i]))
+            ThumbnailLoader::getSingleton()->request(paths[i]);
+        lastLoadedThumbnail=i;
+    }
 }
