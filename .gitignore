@@ -76,3 +76,6 @@ build/*
 
 # VS Code directory
 .vscode/*
+
+# VSCode tool
+.VSCodeCounter/*
