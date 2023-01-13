@@ -1,6 +1,6 @@
 QT       += core gui svg concurrent
 
-VERSION = 0.0.1.3
+VERSION = 0.0.1.4
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
