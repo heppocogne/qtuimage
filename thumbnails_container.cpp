@@ -62,6 +62,7 @@ ThumbnailsContainer::ThumbnailsContainer(QWidget *parent, QStringList &_paths)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setBackgroundRole(QPalette::Dark);
+    connect(horizontalScrollBar(),&QScrollBar::valueChanged,this,&ThumbnailsContainer::onSliderValueChanged);
 }
 
 QSize ThumbnailsContainer::sizeHint(void) const
@@ -73,7 +74,12 @@ void ThumbnailsContainer::wheelEvent(QWheelEvent *event)
 {
     auto *const hsb = horizontalScrollBar();
     hsb->setSliderPosition(hsb->sliderPosition() - event->angleDelta().y() / 4);
-    emit scrolled(hsb->sliderPosition()/(64+layout->spacing()));
+    onSliderValueChanged(hsb->sliderPosition());
+}
+
+void ThumbnailsContainer::onSliderValueChanged(int value)
+{
+    emit scrolled(value/(64+layout->spacing()));
 }
 
 void ThumbnailsContainer::addThumbnail(const QString &path, QSharedPointer<QPixmap> pixmap)

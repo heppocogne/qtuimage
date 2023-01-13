@@ -56,6 +56,7 @@ namespace qtuimage
     public slots:
         void setIcon(const QString &path, QSharedPointer<QPixmap> pixmap);
         void onPathsChanged();
+        void onSliderValueChanged(int value);
 
     signals:
         void selected(const QString &path);
