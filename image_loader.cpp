@@ -1,6 +1,7 @@
 #include "image_loader.h"
 #include <QtConcurrent>
 #include <QDebug>
+#include <QImageReader>
 
 using namespace qtuimage;
 
@@ -9,6 +10,7 @@ ImageLoader *ImageLoader::singleton = nullptr;
 ImageLoader::ImageLoader(QObject *parent)
     : QObject(parent)
 {
+
 }
 
 ImageLoader *ImageLoader::getSingleton()
@@ -21,7 +23,11 @@ ImageLoader *ImageLoader::getSingleton()
 
 void ImageLoader::loadImage(const QString &path)
 {
-    QSharedPointer<QImage> i(new QImage(path));
+    QImageReader reader(path);
+    reader.setAllocationLimit(0);
+    QImage* qimg=new QImage();
+    reader.read(qimg);
+    QSharedPointer<QImage> i(qimg);
     if (i.isNull())
         qDebug() << "failed to load image: " << path;
     else

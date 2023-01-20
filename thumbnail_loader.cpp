@@ -2,6 +2,7 @@
 #include <QtConcurrent>
 #include <QDebug>
 #include <QCryptographicHash>
+#include <QImageReader>
 
 using namespace qtuimage;
 
@@ -31,7 +32,10 @@ QString ThumbnailLoader::getHashString(const QString &str)
 
 void ThumbnailLoader::loadPixmap(const QString &path)
 {
-    auto original = QPixmap(path);
+    QImageReader reader(path);
+    reader.setAllocationLimit(0);
+
+    auto original = QPixmap::fromImageReader(&reader);
     QSharedPointer<QPixmap> p;
     QString cachePath = thumbnailCachePath + getHashString(path) + ".jpg";
     if (QDir().exists(cachePath))
